@@ -12,9 +12,9 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd
 
 
 	<http auto-config="false" use-expressions="true">
-		<form-login default-target-url="/"
-			authentication-failure-handler-ref="ajaxAuthFailureHandler"
-			authentication-success-handler-ref="ajaxAuthSuccessHandler"/>
+		<form-login default-target-url="/"/>
+			<!-- authentication-failure-handler-ref="ajaxAuthFailureHandler" -->
+			<!-- authentication-success-handler-ref="ajaxAuthSuccessHandler"/> -->
        
 		<remember-me />
 		<logout logout-success-url="/" invalidate-session="true" />

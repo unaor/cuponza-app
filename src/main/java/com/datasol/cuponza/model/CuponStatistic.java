@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -14,6 +15,8 @@ public class CuponStatistic  implements Serializable {
 
 	private static final long serialVersionUID = 37231413394380976L;
 	
+	@Id
+	private Integer statisticsId;
 	@OneToOne
     @PrimaryKeyJoinColumn
     private Cupon cupon;
@@ -76,5 +79,12 @@ public class CuponStatistic  implements Serializable {
 
 	public void setNumberOfLikes(Integer numberOfLikes) {
 		this.numberOfLikes = numberOfLikes;
+	}
+	public Integer getStatisticsId() {
+		return statisticsId;
+	}
+
+	public void setStatisticsId(Integer statisticsId) {
+		this.statisticsId = statisticsId;
 	}
 }

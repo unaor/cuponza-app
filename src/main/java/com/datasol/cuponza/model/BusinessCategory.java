@@ -22,7 +22,7 @@ public class BusinessCategory implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="category_id")
-	private Byte categoryId;
+	private Integer categoryId;
 	@Column(name="description")
 	private String description;
 	@OneToMany(mappedBy="businessCategory",fetch=FetchType.LAZY)
@@ -30,11 +30,11 @@ public class BusinessCategory implements Serializable {
 	
 	public BusinessCategory(){}
 
-	public Byte getCategoryId() {
+	public Integer getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Byte categoryId) {
+	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
 

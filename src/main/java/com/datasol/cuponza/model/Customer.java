@@ -31,11 +31,11 @@ public class Customer implements Serializable {
 	private Integer customerId;
 	@Column(name="first_name")
 	@NotNull
-	@Size(min=5,max=50)
+	@Size(min=2,max=50)
 	private String firstName;
 	@Column(name="last_name")
 	@NotNull
-	@Size(min=5,max=50)
+	@Size(min=2,max=50)
 	private String lastName;
 	@Column(name="join_date")
 	@DateTimeFormat(pattern="dd/MM/YY")
@@ -49,7 +49,7 @@ public class Customer implements Serializable {
 	@Column(name="mobile_phone")
 	@NotNull
 	private String mobilePhone;
-	@OneToMany(mappedBy="client",targetEntity=Business.class,
+	@OneToMany(mappedBy="customer",targetEntity=Business.class,
             fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Business> businesses;
 	

@@ -19,6 +19,7 @@ public class CustomerDaoImpl  implements CustomerDao{
 	private SessionFactory sessionFactory;
 	private static final Logger logger = Logger.getLogger(CustomerDaoImpl.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Customer> getCustomers() throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
