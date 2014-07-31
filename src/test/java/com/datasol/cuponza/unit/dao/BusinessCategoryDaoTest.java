@@ -49,7 +49,7 @@ public class BusinessCategoryDaoTest extends TestCase{
 	public void getBusinessCategories() throws DaoException{
 		List<BusinessCategory> categories =businessCategoryDao.getAllBusinessCategories();
 		assertEquals(3,categories.size());
-		BusinessCategory category = businessCategoryDao.getCategoryById(businessCategoryDao.CLOTHS);
+		BusinessCategory category = businessCategoryDao.getCategoryById(BusinessCategoryDao.CLOTHS);
 		assertEquals("Cloths",category.getDescription());
 		BusinessCategory foodCategory = businessCategoryDao.getCategoryByName("Fo");
 		assertNotNull(foodCategory);

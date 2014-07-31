@@ -13,45 +13,60 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "customers",schema="cuponza")
 public class Customer implements Serializable {
 
 	private static final long serialVersionUID = -5398700824491036678L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="customer_id")
 	private Integer customerId;
+	@Expose
 	@Column(name="first_name")
-	@NotNull
-	@Size(min=2,max=50)
+	@NotNull(message="{form.customer.firstName.empty}")
+	@Size(min=2,max=50,message="{user.validation.first.name.not.valid}")
 	private String firstName;
+	@Expose
 	@Column(name="last_name")
 	@NotNull
 	@Size(min=2,max=50)
 	private String lastName;
+	@Expose
 	@Column(name="join_date")
 	@DateTimeFormat(pattern="dd/MM/YY")
 	private Date joinDate;
-	@Column(name="contact_email")
+	@Expose
+	@Column(name="contact_email",unique=true)
 	@NotNull
 	@Email
 	private String contactEmail;
+	@Expose
 	@Column(name="land_phone")
 	private String landPhone;
+	@Expose
 	@Column(name="mobile_phone")
 	@NotNull
 	private String mobilePhone;
+	@Expose
 	@OneToMany(mappedBy="customer",targetEntity=Business.class,
-            fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+            fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Business> businesses;
+	//TODO: change fetch type to lazy
+	@Column(name = "password")
+	@Size(min = 6, max = 20)
+	private String password;
+	@Transient
+	private String passwordConfirmation;
 	
 	public Customer(){}
 
@@ -117,5 +132,21 @@ public class Customer implements Serializable {
 
 	public void setBusinesses(Set<Business> businesses) {
 		this.businesses = businesses;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPasswordConfirmation() {
+		return passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(String passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
 	}
 }

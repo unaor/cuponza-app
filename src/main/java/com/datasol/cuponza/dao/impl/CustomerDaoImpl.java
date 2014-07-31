@@ -12,6 +12,7 @@ import com.datasol.cuponza.dao.CustomerDao;
 import com.datasol.cuponza.exception.DaoException;
 import com.datasol.cuponza.model.Customer;
 
+
 @Repository
 public class CustomerDaoImpl  implements CustomerDao{
 	
@@ -22,6 +23,7 @@ public class CustomerDaoImpl  implements CustomerDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Customer> getCustomers() throws DaoException {
+		//TODO: implement cache for this method
 		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery("from Customer").list();
 	}
@@ -40,7 +42,7 @@ public class CustomerDaoImpl  implements CustomerDao{
 	public void saveCustomer(Customer customer) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
 		logger.debug("new customer has joined with email:  "+customer.getContactEmail());
-		session.saveOrUpdate(customer);		
+			session.saveOrUpdate(customer);				
 	}
 
 	@Override

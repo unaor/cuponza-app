@@ -61,7 +61,7 @@ public class BusinessDaoTest extends TestCase {
 	
 	private Business createBusiness() throws DaoException{
 		Business business = new Business();
-		business.setBusinessCategory(categoryDao.getCategoryById(categoryDao.FOOD));
+		business.setBusinessCategory(categoryDao.getCategoryById(BusinessCategoryDao.FOOD));
 		business.setBusinessEmail("burgers@test.com");
 		Coordinate location = new Coordinate();
 		location.setBusiness(business);

@@ -7,9 +7,9 @@ import com.datasol.cuponza.model.BusinessCategory;
 
 public interface BusinessCategoryDao {
 	
-	public final int FOOD =1;
-	public final int CLOTHS =2;
-	public final int BEAUTY =3;
+	public static final int FOOD =1;
+	public static final int CLOTHS =2;
+	public static final int BEAUTY =3;
 	
 	public List<BusinessCategory> getAllBusinessCategories() throws DaoException;
 	public BusinessCategory getCategoryById(Integer categoryId) throws DaoException;
