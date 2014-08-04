@@ -44,7 +44,7 @@ public class User implements Serializable {
 	@Column(name = "enabled")
 	private Boolean enabled;
 	@Column(name = "password")
-	@Size(min = 6, max = 20)
+	@Size(min = 6)
 	private String password;
 	@DateTimeFormat(pattern = "dd/MM/YY")
 	private Date registrationDate;

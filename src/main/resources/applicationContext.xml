@@ -60,6 +60,12 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
+	<bean id="saltSource"
+    class="org.springframework.security.authentication.dao.ReflectionSaltSource"
+    p:userPropertyToUse="registrationDate" />
+	
 	<import resource="cuponza-security.xml"/>
 	<tx:annotation-driven />
 </beans>

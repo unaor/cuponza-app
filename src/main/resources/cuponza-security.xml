@@ -13,26 +13,23 @@
 		
 		<form-login 	authentication-failure-handler-ref="ajaxAuthFailureHandler" 
 						authentication-success-handler-ref="ajaxAuthSuccessHandler"
-						 login-page="/login"/> 
-       	  <!--<csrf/> -->
+						login-processing-url="/login"/> 
+       	  <!--<csrf/> http://stackoverflow.com/questions/23669424/cant-create-csrf-token-with-spring-security-->
 		 <remember-me />
-		<logout logout-success-url="/" invalidate-session="true" />
+		<logout logout-success-url="/" logout-url="/logout" invalidate-session="true" />
 		<!-- <session-management invalid-session-url="/" /> -->
 		 <logout delete-cookies="JSESSIONID" />
 	</http>
 	<authentication-manager>
 		<authentication-provider>
+			<password-encoder ref="encoder" >
+				 <!-- <salt-source ref="saltSource"/> salting is transparent  -->
+			</password-encoder>
 			<jdbc-user-service data-source-ref="dataSource.mysql"
 				users-by-username-query="
-         SELECT USERNAME, PASSWORD, CASE ENABLED WHEN 1 THEN 'true' ELSE 'false' END 'ENABLED'
-         FROM USERS
-         WHERE USERNAME=?;"
- 
+         			SELECT USERNAME, PASSWORD, CASE ENABLED WHEN 1 THEN 'true' ELSE 'false' END 'ENABLED' FROM USERS WHERE USERNAME=?;"
        authorities-by-username-query="
-        SELECT u.USERNAME, r.authority
-        FROM USERS u, AUTHORITIES r
-        WHERE u.USERNAME=? and
-		u.authority_id=r.authority_id;"/>
+        			SELECT u.USERNAME, r.authority FROM USERS u, AUTHORITIES r WHERE u.USERNAME=? and u.authority_id=r.authority_id;"/>
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>

@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.dao.SaltSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	SaltSource saltSource;
 	
 	private static final Logger log = Logger.getLogger(UserServiceImpl.class);
 
@@ -40,6 +45,8 @@ public class UserServiceImpl implements UserService {
 		//TODO:set as false until we send validation email
 		user.setEnabled(true);
 		user.setRegistrationDate(new Date());
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		try {
 			Authority authority = userDao.getAuthorityByName(Authority.NORMAL_USER_ROLE);
 			user.setAuthority(authority);
