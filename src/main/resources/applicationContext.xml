@@ -60,5 +60,6 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<import resource="cuponza-security.xml"/>
 	<tx:annotation-driven />
 </beans>

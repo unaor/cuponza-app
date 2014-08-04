@@ -9,16 +9,16 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd"> 
 
-	<!-- <global-method-security secured-annotations="enabled" /> -->
 	<http auto-config="false" use-expressions="true">
+		
 		<form-login 	authentication-failure-handler-ref="ajaxAuthFailureHandler" 
 						authentication-success-handler-ref="ajaxAuthSuccessHandler"
 						 login-page="/login"/> 
-       	 <!-- <csrf/> -->
-		<!-- <remember-me />  -->
+       	  <!--<csrf/> -->
+		 <remember-me />
 		<logout logout-success-url="/" invalidate-session="true" />
 		<!-- <session-management invalid-session-url="/" /> -->
-		<!-- <logout delete-cookies="JSESSIONID" /> -->
+		 <logout delete-cookies="JSESSIONID" />
 	</http>
 	<authentication-manager>
 		<authentication-provider>

@@ -19,9 +19,10 @@ public class Authority implements Serializable {
 
 
 	private static final long serialVersionUID = -726743464770443705L;
-	public static final String NORMAL_USER_ROLE="USER_ROLE";
-	public static final String PAYING_CUSTOMER="CUSTOMER_ROLE";
-	public static final String SYS_ADMIN="ADMIN_ROLE";
+	//the @Secured annotation works only with ROLE_ by default
+	public static final String NORMAL_USER_ROLE="ROLE_USER";
+	public static final String PAYING_CUSTOMER="ROLE_CUSTOMER";
+	public static final String SYS_ADMIN="ROLE_ADMIN";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
