@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,8 +22,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserDao userDao;
-	@Autowired
-	SaltSource saltSource;
 	
 	private static final Logger log = Logger.getLogger(UserServiceImpl.class);
 

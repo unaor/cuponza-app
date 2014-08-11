@@ -20,6 +20,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:database.properties</value>
+				<value>classpath:social.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -67,5 +68,6 @@
     p:userPropertyToUse="registrationDate" />
 	
 	<import resource="cuponza-security.xml"/>
+	<!-- <import resource="cuponza-social.xml"/> -->
 	<tx:annotation-driven />
 </beans>
