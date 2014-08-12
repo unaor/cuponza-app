@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
 					// ClassPathResource("img/mylogo.gif"));
 					// message.addAttachment("myDocument.pdf", new
 					// ClassPathResource("doc/myDocument.pdf"));
-					message.setText("<a href=\"http://localhost:8082/cuponza/user/activate?uuid="+ user.getUuid()+"&email="+user.getEmail()+"\">Haz clic aqui para activar tu cuenta</a>");
+					message.setText("","<a href=\"http://localhost:8082/cuponza/user/activate?uuid="+ user.getUuid()+"&email="+user.getEmail()+"\">Haz clic aqui para activar tu cuenta</a>");
 				} catch (MessagingException e) {
 					log.error("error sending confirmation email "+e);
 					throw new ServiceException("Error sending confirmation email");
