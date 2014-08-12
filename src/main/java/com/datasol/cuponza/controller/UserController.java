@@ -14,8 +14,10 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
@@ -68,6 +70,17 @@ public class UserController {
 			return gson.toJson(messageSource.getMessage("controller.response.failure",null, locale));
 		}
 		
+	}
+	
+	@RequestMapping(value="/user/activate" , method=RequestMethod.GET)
+	public @ResponseBody String activateUser(WebRequest request,@RequestParam(value="uuid") String uuid,@RequestParam(value="email") String email){
+		Gson gson = new Gson();
+		try {
+			userService.activateUser(email, uuid);
+			return gson.toJson("ok");
+		} catch (ServiceException e) {
+			return gson.toJson("bad");
+		}
 	}
 
 }

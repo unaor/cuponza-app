@@ -31,9 +31,15 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void insertUser(User user) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
-		logger.debug("new user has joined with email:  "+user.getEmail());
+		if(user.getUserId()==null){
+			logger.debug("new user has joined with email:  "+user.getEmail());
+			session.saveOrUpdate(user);	
+		}else{
+			logger.debug("activated the user: "+user.getEmail());
+			//session.update(user);
+			//session.flush();
+		}
 		session.saveOrUpdate(user);	
-
 	}
 
 	@Override

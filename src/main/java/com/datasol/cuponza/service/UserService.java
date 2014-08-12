@@ -7,5 +7,5 @@ public interface UserService {
 	
 	public User getUserByEmail(String email) throws ServiceException;
 	public void insertUser(User user) throws ServiceException;
-
+	public void activateUser(String email,String uuid) throws ServiceException;
 }

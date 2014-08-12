@@ -53,6 +53,8 @@ public class User implements Serializable {
 	private Authority authority;
 	@Transient
 	private String passwordConfirmation;
+	@Column(name="uuid")
+	private String uuid;
 	
 	public User(){}
 	
@@ -132,4 +134,11 @@ public class User implements Serializable {
 		this.passwordConfirmation = passwordConfirmation;
 	}
 
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 }

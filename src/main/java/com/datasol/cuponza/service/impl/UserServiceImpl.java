@@ -1,9 +1,18 @@
 package com.datasol.cuponza.service.impl;
 
 import java.util.Date;
+import java.util.UUID;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,13 +25,19 @@ import com.datasol.cuponza.exception.ServiceException;
 import com.datasol.cuponza.model.Authority;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
+
 @Component
-@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true ,rollbackFor = Exception.class) 
+@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true, rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
-	
+
+	private static final String CUPONZA_FROM_EMAIL = "registrar@cuponza.com.co";
+	private static final String CUPONZA_SUBJECT_EMAIL = "verifique tu email y sea parte de Cuponza";
+
 	@Autowired
 	UserDao userDao;
-	
+	@Autowired
+	private JavaMailSender mailSender;
+
 	private static final Logger log = Logger.getLogger(UserServiceImpl.class);
 
 	@Override
@@ -30,30 +45,82 @@ public class UserServiceImpl implements UserService {
 		try {
 			return userDao.getUserByEmail(email);
 		} catch (DaoException e) {
-			log.error("error getting user with email "+email +" stack: "+e);
-			throw new ServiceException("error getting user with email "+email);
+			log.error("error getting user with email " + email + " stack: " + e);
+			throw new ServiceException("error getting user with email " + email);
 		}
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false ,rollbackFor = Exception.class) 
+	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false, rollbackFor = Exception.class)
 	public void insertUser(User user) throws ServiceException {
 		log.debug("Starting user registration");
-		//TODO:set as false until we send validation email
-		user.setEnabled(true);
+		user.setEnabled(false);
+		user.setUuid(UUID.randomUUID().toString());
 		user.setRegistrationDate(new Date());
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		try {
-			Authority authority = userDao.getAuthorityByName(Authority.NORMAL_USER_ROLE);
+			Authority authority = userDao
+					.getAuthorityByName(Authority.NORMAL_USER_ROLE);
 			user.setAuthority(authority);
 			userDao.insertUser(user);
 			log.debug("completed user registration");
+			sendConfirmationEmail(user);
 		} catch (DaoException e) {
-			log.error("error registering user with email "+user.getEmail());
-			throw new ServiceException("error saving user with email "+user.getEmail());
+			log.error("error registering user with email " + user.getEmail());
+			throw new ServiceException("error saving user with email "
+					+ user.getEmail());
 		}
 
+	}
+
+	private void sendConfirmationEmail(final User user) {
+		mailSender.send(new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws ServiceException {
+				MimeMessageHelper message;
+				try {
+					message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+					message.setFrom(CUPONZA_FROM_EMAIL);
+					message.setTo(user.getEmail());
+					message.setSubject(CUPONZA_SUBJECT_EMAIL);
+					// message.setText("my text <img src='cid:myLogo'>", true);
+					// message.addInline("myLogo", new
+					// ClassPathResource("img/mylogo.gif"));
+					// message.addAttachment("myDocument.pdf", new
+					// ClassPathResource("doc/myDocument.pdf"));
+					message.setText("<a href=\"http://localhost:8082/cuponza/user/activate?uuid="+ user.getUuid()+"&email="+user.getEmail()+"\">Haz clic aqui para activar tu cuenta</a>");
+				} catch (MessagingException e) {
+					log.error("error sending confirmation email "+e);
+					throw new ServiceException("Error sending confirmation email");
+				}
+				log.debug("sent confirmation email to user " + user.getEmail());
+			}
+		});
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false, rollbackFor = Exception.class)
+	public void activateUser(String email, String uuid) throws ServiceException {
+		User user = getUserByEmail(email);
+		if(user==null){
+			log.debug("no user found when activating user "+email);
+			throw new ServiceException("no user found when activating user");
+		}
+		if(user.getUuid().equals(uuid)){
+			user.setEnabled(true);
+			try {
+				userDao.insertUser(user);
+			} catch (DaoException e) {
+				log.error("DB error when updating user to active state "+email);
+				log.error(e);
+				throw new ServiceException("error activating user");
+			}
+			log.debug("activated user "+email);
+		}else{
+			log.debug("the uuid of the users does not match "+email);
+			throw new ServiceException("uuid do not match");
+		}
+		
 	}
 
 }
