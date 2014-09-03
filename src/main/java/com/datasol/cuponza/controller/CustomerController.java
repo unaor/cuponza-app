@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,7 +42,7 @@ public class CustomerController extends CuponzaController {
 	
 	@RequestMapping(value="/customer/add",method = RequestMethod.POST)
 	public @ResponseBody String addCustomer(WebRequest request, @Valid
-			@ModelAttribute("customer") Customer customer, BindingResult result,Model model,Locale locale){
+			@RequestBody Customer customer, BindingResult result,Model model,Locale locale){
 		Gson gson = new Gson();
 		CustomerValidator validator = new CustomerValidator();
 		validator.validate(customer, result);

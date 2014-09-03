@@ -13,8 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.datasol.cuponza.controller.validator.UserValidator;
 import com.datasol.cuponza.exception.ServiceException;
+import com.datasol.cuponza.exception.UserAlreadyExistsException;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
 import com.datasol.cuponza.util.ControllerUtil;
@@ -52,9 +52,9 @@ public class UserController {
 		return gson.toJson(messageSource.getMessage("controller.response.failure",null, locale)); 
 		    }
 	
-	@RequestMapping(value="/user/add",method = RequestMethod.POST)
+	@RequestMapping(value="/user/add",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
 	public @ResponseBody String addUser(WebRequest request, @Valid
-			@ModelAttribute("user") User user, BindingResult result,Model model,Locale locale){
+			@RequestBody User user, BindingResult result,Model model,Locale locale){
 		Gson gson = new Gson();
 		UserValidator validator = new UserValidator();
 		validator.validate(user, result);
@@ -68,6 +68,8 @@ public class UserController {
 			return gson.toJson("ok");
 		} catch (ServiceException e) {
 			return gson.toJson(messageSource.getMessage("controller.response.failure",null, locale));
+		} catch (UserAlreadyExistsException e) {
+			return gson.toJson(messageSource.getMessage("controller.response.user.exists",null, locale));
 		}
 		
 	}

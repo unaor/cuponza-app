@@ -32,7 +32,7 @@
         </list>
     </property>
 	    <property name="defaultEncoding" value="ISO-8859-1"/>
-	    <property name="fileEncodings" value="ISO-8859-1" />
+	    <property name="fileEncodings" value="ISO-8859-1,UTF-8" />
 	    <property name="useCodeAsDefaultMessage" value="false"/>
 	    <property name="fallbackToSystemLocale" value="false"/>	    
 	</bean>
@@ -51,4 +51,5 @@
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 	    <property name="paramName" value="language" />
 	</bean>
+	
 </beans>

@@ -13,6 +13,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.datasol.cuponza.exception.ServiceException;
+import com.datasol.cuponza.exception.UserAlreadyExistsException;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
 
@@ -34,7 +35,12 @@ public class UserServiceTest {
 		user.setFirstName("Uri");
 		user.setLastName("Naor");
 		user.setPassword("123456");
-		userService.insertUser(user);
+		try {
+			userService.insertUser(user);
+		} catch (UserAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	

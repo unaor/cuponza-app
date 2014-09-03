@@ -13,12 +13,16 @@
 		
 		<form-login 	authentication-failure-handler-ref="ajaxAuthFailureHandler" 
 						authentication-success-handler-ref="ajaxAuthSuccessHandler"
-						login-processing-url="/login"/> 
+						login-processing-url="/login"
+						username-parameter="username"
+						password-parameter="password"/> 
        	  <!--<csrf/> http://stackoverflow.com/questions/23669424/cant-create-csrf-token-with-spring-security-->
-		 <remember-me />
 		<logout logout-success-url="/" logout-url="/logout" invalidate-session="true" />
 		<!-- <session-management invalid-session-url="/" /> -->
 		 <logout delete-cookies="JSESSIONID" />
+		 <remember-me 
+        		token-validity-seconds="1209600"
+				remember-me-parameter="remember-me" />
 	</http>
 	<authentication-manager>
 		<authentication-provider>

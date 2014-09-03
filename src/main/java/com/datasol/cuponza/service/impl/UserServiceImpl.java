@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.datasol.cuponza.dao.UserDao;
 import com.datasol.cuponza.exception.DaoException;
 import com.datasol.cuponza.exception.ServiceException;
+import com.datasol.cuponza.exception.UserAlreadyExistsException;
 import com.datasol.cuponza.model.Authority;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
@@ -52,8 +53,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false, rollbackFor = Exception.class)
-	public void insertUser(User user) throws ServiceException {
+	public void insertUser(User user) throws ServiceException, UserAlreadyExistsException {
 		log.debug("Starting user registration");
+		try {
+			if(userDao.getUserByEmail(user.getEmail())!=null){
+				log.debug("user already registered email: "+user.getEmail());
+				throw new UserAlreadyExistsException("this email is already registered");
+			}
+		} catch (DaoException e1) {
+			log.error("Database error while retreiving user with email "+user.getEmail());
+			throw new ServiceException("error saving user");
+		}
 		user.setEnabled(false);
 		user.setUuid(UUID.randomUUID().toString());
 		user.setRegistrationDate(new Date());
