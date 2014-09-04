@@ -51,7 +51,7 @@
 				<prop key="hibernate.c3p0.max_statements">50</prop>
 				<prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
 				<prop key="hibernate.id.new_generator_mappings">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 

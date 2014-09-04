@@ -38,9 +38,6 @@ public class Business implements Serializable {
 	@ManyToOne
     @JoinColumn(name="category_id")
 	private BusinessCategory businessCategory;
-	@OneToMany(mappedBy="business",targetEntity=Coordinate.class,
-            fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Coordinate> businessLocations;
 	@Column(name="business_name")
 	@NotNull
 	@Size(min=1,max=20)
@@ -82,15 +79,6 @@ public class Business implements Serializable {
 
 	public void setBusinessCategory(BusinessCategory businessCategory) {
 		this.businessCategory = businessCategory;
-	}
-
-
-	public Set<Coordinate> getBusinessLocations() {
-		return businessLocations;
-	}
-
-	public void setBusinessLocations(Set<Coordinate> businessLocations) {
-		this.businessLocations = businessLocations;
 	}
 
 	public String getBusinessName() {

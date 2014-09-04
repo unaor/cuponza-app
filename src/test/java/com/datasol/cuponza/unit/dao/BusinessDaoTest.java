@@ -20,7 +20,6 @@ import com.datasol.cuponza.dao.BusinessDao;
 import com.datasol.cuponza.dao.CustomerDao;
 import com.datasol.cuponza.exception.DaoException;
 import com.datasol.cuponza.model.Business;
-import com.datasol.cuponza.model.Coordinate;
 import com.datasol.cuponza.model.Customer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -53,23 +52,12 @@ public class BusinessDaoTest extends TestCase {
 	public void checkBussiness() throws DaoException{
 		Business business = businessDao.getBusinessByEmail("burgers@test.com");
 		assertEquals("Uri", business.getCustomer().getFirstName());
-		Set<Coordinate> locations = business.getBusinessLocations();
-		for(Coordinate location :locations){
-			assertEquals(54.3213f,location.getLatidude());
-		}
 	}
 	
 	private Business createBusiness() throws DaoException{
 		Business business = new Business();
 		business.setBusinessCategory(categoryDao.getCategoryById(BusinessCategoryDao.FOOD));
 		business.setBusinessEmail("burgers@test.com");
-		Coordinate location = new Coordinate();
-		location.setBusiness(business);
-		location.setLatidude(54.3213f);
-		location.setLongitude(12.54321f);
-		Set<Coordinate> locations = new HashSet<Coordinate>();
-		locations.add(location);
-		business.setBusinessLocations(locations);
 		business.setBusinessName("Uri burgers");
 		business.setBusinessUrl("www.cuponza.com");
 		Customer customer = customerDao.getCustomers().get(0);
