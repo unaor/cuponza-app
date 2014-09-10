@@ -35,6 +35,6 @@ public class CuponzaController {
 		//TODO:remove this line for production
 		System.out.println("ERROR ERROR ERROR "+ex);
 		Gson gson = new Gson();
-		return gson.toJson(messageSource.getMessage("controller.response.404",null, locale)); 
+		return gson.toJson(messageSource.getMessage("controller.response.404" + ex,null, locale)); 
 		    }
 }

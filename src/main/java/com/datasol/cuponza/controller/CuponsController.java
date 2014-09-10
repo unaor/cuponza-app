@@ -5,9 +5,9 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
@@ -22,9 +22,8 @@ public class CuponsController extends CuponzaController {
 	@Autowired
 	CuponService cuponService;
 
-	@RequestMapping(value = "/cupons/byLocation", method = RequestMethod.POST,consumes="application/json")
-	public @ResponseBody String getCuponsByLocation(WebRequest request , @RequestBody Float longitude,
-			@RequestBody Float latitude, Locale locale) {
+	@RequestMapping(value = "/cupons/byLocation", method = RequestMethod.POST)
+	public @ResponseBody String getCuponsByLocation(WebRequest request ,@RequestParam Float longitude, @RequestParam Float latitude, Locale locale) {
 		Gson gson = new Gson();
 		List<Cupon> cupons = null;
 		try {
