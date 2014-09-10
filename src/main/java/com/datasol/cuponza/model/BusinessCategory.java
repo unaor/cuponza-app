@@ -25,7 +25,7 @@ public class BusinessCategory implements Serializable {
 	private Integer categoryId;
 	@Column(name="description")
 	private String description;
-	@OneToMany(mappedBy="businessCategory",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="businessCategory")
 	private Set<Business> businesses;
 	
 	public BusinessCategory(){}

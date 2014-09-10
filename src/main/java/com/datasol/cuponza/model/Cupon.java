@@ -18,6 +18,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "cupons",schema="cuponza")
 public class Cupon implements Serializable {
@@ -29,13 +31,16 @@ public class Cupon implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="cupon_id")
 	private Integer cuponId;
+	@Expose
 	@Column(name="cupon_title")
 	@NotNull
 	@Size(min=5,max=30)
 	private String  cuponTitle;
+	@Expose
 	@Column(name="cupon_description")
 	@NotNull
 	private String cuponDescription;
+	@Expose
 	@Column(name="cupon_value")
 	private Double cuponValue;
 	//TODO: think about units of measure like pesos/percentage etc
@@ -45,20 +50,23 @@ public class Cupon implements Serializable {
 	@Column(name="expiration_date")
 	@DateTimeFormat(pattern="dd/MM/YY")
 	private Date expirationDate;
+	@Expose
 	@Column(name="picture_url")
 	private String pictureURL;
 	@Column(name="cupon_qty")
 	private Integer cuponQuantity;
 	@Column(name="cupon_active_state")
 	private Boolean active;
-	@ManyToOne
+	@ManyToOne()
     @JoinColumn(name = "business_id",updatable=true, insertable=true,nullable=false)
 	private Business business;
 	@OneToOne(mappedBy="cupon", cascade=CascadeType.ALL)
 	private CuponStatistic cuponStatistics;
+	@Expose
 	@Column(name="longitude")
 	@NotNull
 	private Float longitude;
+	@Expose
 	@Column(name="latidude")
 	@NotNull
 	private Float latidude;

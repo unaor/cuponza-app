@@ -35,7 +35,7 @@ public class Business implements Serializable {
     )
 	@Column(name="business_id")
 	private Integer businessId;
-	@ManyToOne
+	@ManyToOne()
     @JoinColumn(name="category_id")
 	private BusinessCategory businessCategory;
 	@Column(name="business_name")
