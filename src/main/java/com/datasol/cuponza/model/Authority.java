@@ -13,9 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
 @Table(name = "authorities", schema = "cuponza")
-public class Authority implements Serializable {
+public class Authority implements Serializable , GrantedAuthority {
 
 
 	private static final long serialVersionUID = -726743464770443705L;
@@ -59,6 +61,11 @@ public class Authority implements Serializable {
 
 	public void setAuthorityName(String authorityName) {
 		this.authorityName = authorityName;
+	}
+
+	@Override
+	public String getAuthority() {
+		return authorityName;
 	}
 
 }

@@ -11,6 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,9 +31,9 @@ import com.datasol.cuponza.model.Authority;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
 
-@Component
+@Component("cuponZaUserService")
 @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true, rollbackFor = Exception.class)
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	private static final String CUPONZA_FROM_EMAIL = "registrar@cuponza.com.co";
 	private static final String CUPONZA_SUBJECT_EMAIL = "verifique tu email y sea parte de Cuponza";
@@ -118,6 +124,9 @@ public class UserServiceImpl implements UserService {
 			user.setEnabled(true);
 			try {
 				userDao.insertUser(user);
+				//now the user is persisted lets create him a session
+				Authentication auth = new UsernamePasswordAuthenticationToken (user.getUsername (),user.getPassword (),user.getAuthorities ());
+				SecurityContextHolder.getContext().setAuthentication(auth);
 			} catch (DaoException e) {
 				log.error("DB error when updating user to active state "+email);
 				log.error(e);
@@ -129,6 +138,17 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceException("uuid do not match");
 		}
 		
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username)
+			throws UsernameNotFoundException {
+		try {
+			return (UserDetails)getUserByEmail(username);
+		} catch (ServiceException e) {
+			log.debug("no user was found with this username "+username);
+			return null;
+		}
 	}
 
 }

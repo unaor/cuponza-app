@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,9 +36,9 @@ public class UserController extends CuponzaController {
         binder.setValidator(new UserValidator());
 	}
 	
-	@RequestMapping(value="/user/add",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/user/add",method = RequestMethod.POST)
 	public @ResponseBody String addUser(WebRequest request, @Valid
-			@RequestBody User user, BindingResult result,Model model,Locale locale){
+			@ModelAttribute User user, BindingResult result,Model model,Locale locale){
 		Gson gson = new Gson();
 		UserValidator validator = new UserValidator();
 		validator.validate(user, result);

@@ -14,3 +14,4 @@ INSERT INTO businesses values (2,"oviedo@cuponza.co","Oviedo","www.business.com"
 INSERT INTO cupons values (1,true,sysdate(),"Santa fe descuento grande",3,"SantaFe CC",12,sysdate()+30,6.197911,-75.574379,"/pictures/ss/2",1);
 INSERT INTO cupons values (2,true,sysdate(),"Oviedo descuento bueno",3,"Oviedo CC",16,(sysdate()+30),6.198802,-75.574159,"/pictures/ss/3",2);
 
+INSERT INTO users values (1,'uri@test.com',true,'Uri','Naor','',SYSDATE(),null,3);

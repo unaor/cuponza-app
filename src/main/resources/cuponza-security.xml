@@ -23,15 +23,15 @@
 		 	<remember-me token-validity-seconds="1209600" remember-me-parameter="remember-me" />
 	</http>
 	<authentication-manager>
-		<authentication-provider>
+		<authentication-provider user-service-ref='cuponZaUserService'>
 			<password-encoder ref="encoder" >
 				 <!-- <salt-source ref="saltSource"/> salting is transparent  -->
 			</password-encoder>
-			<jdbc-user-service data-source-ref="dataSource.mysql"
+			<!-- <jdbc-user-service data-source-ref="dataSource.mysql"
 				users-by-username-query="
          			SELECT USERNAME, PASSWORD, CASE ENABLED WHEN 1 THEN 'true' ELSE 'false' END 'ENABLED' FROM USERS WHERE USERNAME=?;"
-       authorities-by-username-query="
-        			SELECT u.USERNAME, r.authority FROM USERS u, AUTHORITIES r WHERE u.USERNAME=? and u.authority_id=r.authority_id;"/>
+       			authorities-by-username-query="
+        			SELECT u.USERNAME, r.authority FROM USERS u, AUTHORITIES r WHERE u.USERNAME=? and u.authority_id=r.authority_id;"/> -->
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>
