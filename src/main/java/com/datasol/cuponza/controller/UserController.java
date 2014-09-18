@@ -68,5 +68,16 @@ public class UserController extends CuponzaController {
 			return gson.toJson("bad");
 		}
 	}
+	
+	@RequestMapping(value="/user/socialLogin" , method=RequestMethod.POST)
+	public @ResponseBody String socialLogin(@ModelAttribute User user){
+		Gson gson = new Gson();
+		try {
+			userService.authenticateSocialUser(user);
+			return gson.toJson("ok");
+		} catch (ServiceException e) {
+			return gson.toJson("bad");
+		}
+	}
 
 }

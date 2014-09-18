@@ -59,7 +59,11 @@ public class User implements Serializable,UserDetails {
 	private String passwordConfirmation;
 	@Column(name="uuid")
 	private String uuid;
-	
+	@Column(name="last_login")
+	@DateTimeFormat(pattern = "dd/MM/YY")
+	private Date lastLoginDate;
+	@Column(name="auth_provider")
+	private String authProvider;
 	public User(){}
 	
 	public User(String email){
@@ -136,6 +140,23 @@ public class User implements Serializable,UserDetails {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
+	public String getAuthProvider() {
+		return authProvider;
+	}
+
+	public void setAuthProvider(String authProvider) {
+		this.authProvider = authProvider;
 	}
 
 	@Override

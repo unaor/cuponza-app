@@ -13,4 +13,5 @@ public interface UserService {
 	public void insertUser(User user) throws ServiceException,UserAlreadyExistsException;
 	public void activateUser(String email,String uuid) throws ServiceException;
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+	public void authenticateSocialUser(User user) throws ServiceException;
 }

@@ -15,6 +15,7 @@ import com.datasol.cuponza.exception.ServiceException;
 import com.datasol.cuponza.exception.UserAlreadyExistsException;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
+import com.datasol.cuponza.util.AuthProvider;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/testContext.xml")
@@ -34,6 +35,7 @@ public class UserServiceTest {
 		user.setFirstName("Uri");
 		user.setLastName("Naor");
 		user.setPassword("123456");
+		user.setAuthProvider(AuthProvider.CUPONZA.name());
 		try {
 			userService.insertUser(user);
 		} catch (UserAlreadyExistsException e) {

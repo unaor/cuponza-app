@@ -30,6 +30,7 @@ import com.datasol.cuponza.exception.UserAlreadyExistsException;
 import com.datasol.cuponza.model.Authority;
 import com.datasol.cuponza.model.User;
 import com.datasol.cuponza.service.UserService;
+import com.datasol.cuponza.util.AuthProvider;
 
 @Component("cuponZaUserService")
 @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true, rollbackFor = Exception.class)
@@ -71,6 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setEnabled(false);
 		user.setUuid(UUID.randomUUID().toString());
 		user.setRegistrationDate(new Date());
+		user.setAuthProvider(AuthProvider.CUPONZA.name());
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		try {
@@ -122,11 +124,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		if(user.getUuid().equals(uuid)){
 			user.setEnabled(true);
+			user.setLastLoginDate(new Date());
 			try {
 				userDao.insertUser(user);
 				//now the user is persisted lets create him a session
-				Authentication auth = new UsernamePasswordAuthenticationToken (user.getUsername (),user.getPassword (),user.getAuthorities ());
-				SecurityContextHolder.getContext().setAuthentication(auth);
+				authenticateUser(user);
 			} catch (DaoException e) {
 				log.error("DB error when updating user to active state "+email);
 				log.error(e);
@@ -149,6 +151,49 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.debug("no user was found with this username "+username);
 			return null;
 		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false, rollbackFor = Exception.class)
+	public void authenticateSocialUser(User user) throws ServiceException {
+		log.debug("Starting user registration via social provider: "+user.getAuthProvider());
+		User dbUser = getUserByEmail(user.getEmail());
+		if (dbUser!=null){
+			//returning user
+			dbUser.setLastLoginDate(new Date());
+			try {
+				userDao.insertUser(dbUser);
+				authenticateUser(user);
+				log.debug("returning social user:"+user.getEmail());
+			} catch (DaoException e) {
+				log.error("error social registering user with email " + user.getEmail());
+				throw new ServiceException("error social registering user");
+			}
+		}else{
+			user.setEnabled(true);
+			user.setRegistrationDate(new Date());
+			user.setAuthProvider(AuthProvider.valueOf(user.getAuthProvider()).name());
+			Authority authority;
+			try {
+				authority = userDao
+						.getAuthorityByName(Authority.NORMAL_USER_ROLE);
+				user.setAuthority(authority);
+				userDao.insertUser(user);
+				log.debug("completed user registration");
+			} catch (DaoException e) {
+				log.error("error social registering user with email " + user.getEmail());
+				throw new ServiceException("error social registering user");
+			}
+			//TODO: implement welcome email method
+			sendConfirmationEmail(user);
+			authenticateUser(user);
+		}
+		
+	}
+	
+	private void authenticateUser(User user){
+		Authentication auth = new UsernamePasswordAuthenticationToken (user.getUsername (),user.getPassword (),user.getAuthorities ());
+		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
 
 }
