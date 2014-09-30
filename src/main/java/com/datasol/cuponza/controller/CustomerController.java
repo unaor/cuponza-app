@@ -29,7 +29,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @Controller
-@Secured(value={Authority.SYS_ADMIN})
 public class CustomerController extends CuponzaController {
 	
 	@Autowired
@@ -38,6 +37,11 @@ public class CustomerController extends CuponzaController {
 	@InitBinder("customerValidator")
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(new CustomerValidator());
+	}
+	
+	@RequestMapping(value="/customer/add",method = RequestMethod.GET)
+	public String addCustomer(){
+		return "customer/customerAdd";
 	}
 	
 	@RequestMapping(value="/customer/add",method = RequestMethod.POST)
@@ -62,6 +66,7 @@ public class CustomerController extends CuponzaController {
 		}
 		
 	}
+	@Secured(value={Authority.SYS_ADMIN})
 	@RequestMapping(value="/customer/all",method = RequestMethod.GET)
 	public @ResponseBody String getAllCustomers(WebRequest request,Locale locale){
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();

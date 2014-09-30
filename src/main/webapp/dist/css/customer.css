@@ -1,0 +1,27 @@
+body {
+	background: #11e763; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMSUiIHN0b3AtY29sb3I9IiMxMWU3NjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI4NCUiIHN0b3AtY29sb3I9IiMwMDkxM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvcmFkaWFsR3JhZGllbnQ+CiAgPHJlY3QgeD0iLTUwIiB5PSItNTAiIHdpZHRoPSIxMDEiIGhlaWdodD0iMTAxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-radial-gradient(center, ellipse cover,  #11e763 1%, #00913a 84%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,#11e763), color-stop(84%,#00913a)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  #11e763 1%,#00913a 84%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  #11e763 1%,#00913a 84%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  #11e763 1%,#00913a 84%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  #11e763 1%,#00913a 84%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e763', endColorstr='#00913a',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+}
+#container {
+	max-width: 760px;
+	margin: 50px auto;
+	padding-left: 1em;
+	padding-right: 1em;
+	max-width: 768px;
+}
+
+.logo-hd {
+	background: url(../img/logo_cuponza.png) no-repeat center;
+	width: 283px;
+	height: 67px;
+	margin:0 auto;
+	margin-bottom: 30px;
+}
