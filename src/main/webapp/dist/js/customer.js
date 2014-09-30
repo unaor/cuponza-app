@@ -1,16 +1,17 @@
-$(document).ready(function() {
-   	$('#formulario').on('submit', function() {
-   		console.log($("#formulario").serialize());
-   		var url = "registrarUsuario.jsp";
-	    $.ajax({
-           type: "POST",
-           url: url,
-           data: $("#formulario").serialize(),
-	       success: function(data) {
-	       		alert(data);
-	       }
-         });
-
-	    return false;
-	});
-});
+   	function verifyForm(){
+   		console.log("verifying form");
+   		var terms = $('#terms');
+   		
+   		$.ajax({
+            type: "POST",
+            url: '/cuponza/customer/add',
+            data: $("#customerRegistrationForm").serialize(),
+ 	       success: function(data) {
+ 	       		alert(data);
+ 	       },
+ 	       failure : function(data){
+ 	    	   alert(data);
+ 	       }
+          });
+   		
+   	}
