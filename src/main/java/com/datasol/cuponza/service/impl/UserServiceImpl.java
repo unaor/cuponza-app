@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 				throw new ServiceException("error social registering user");
 			}
 			//TODO: implement welcome email method
-			sendConfirmationEmail(user);
+			//sendConfirmationEmail(user);
 			authenticateUser(user);
 		}
 		
