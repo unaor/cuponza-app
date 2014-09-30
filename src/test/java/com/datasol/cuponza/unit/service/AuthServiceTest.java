@@ -31,6 +31,7 @@ public class AuthServiceTest {
 		User userDetails =(User)userService.loadUserByUsername("uri@test.com");
 		assertEquals("Uri",userDetails.getFirstName());
 		Authentication auth = new UsernamePasswordAuthenticationToken (userDetails.getUsername (),userDetails.getPassword (),userDetails.getAuthorities ());
+		assertNull(SecurityContextHolder.getContext());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
 

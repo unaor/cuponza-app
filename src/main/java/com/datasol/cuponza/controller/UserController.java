@@ -70,8 +70,14 @@ public class UserController extends CuponzaController {
 	}
 	
 	@RequestMapping(value="/user/socialLogin" , method=RequestMethod.POST)
-	public @ResponseBody String socialLogin(@ModelAttribute User user){
+	public @ResponseBody String socialLogin(@Valid @ModelAttribute User user,BindingResult result,Model model,Locale locale){
 		Gson gson = new Gson();
+		UserValidator validator = new UserValidator();
+		validator.validate(user, result);
+		model.addAttribute("user", user);
+		if(result.hasErrors()){
+			return ControllerUtil.decodeErrorMessages(result.getAllErrors(),locale,messageSource);
+		}
 		try {
 			userService.authenticateSocialUser(user);
 			return gson.toJson("ok");

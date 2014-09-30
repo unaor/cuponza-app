@@ -172,7 +172,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}else{
 			user.setEnabled(true);
 			user.setRegistrationDate(new Date());
-			user.setAuthProvider(AuthProvider.valueOf(user.getAuthProvider()).name());
 			Authority authority;
 			try {
 				authority = userDao
