@@ -55,7 +55,6 @@ public class Customer implements Serializable {
 	private String landPhone;
 	@Expose
 	@Column(name="mobile_phone")
-	@NotNull
 	private String mobilePhone;
 	@Expose
 	@OneToMany(mappedBy="customer",targetEntity=Business.class,

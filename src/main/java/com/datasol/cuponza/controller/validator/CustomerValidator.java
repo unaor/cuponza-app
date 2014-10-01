@@ -19,7 +19,7 @@ public class CustomerValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "form.customer.lastName.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "form.customer.firstName.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "form.customer.password.empty");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contactEmail", "form.customer.password.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contactEmail", "form.customer.email.empty");
 		if(customer.getPassword()!=null && customer.getPasswordConfirmation()!=null &&!customer.getPassword().equals(customer.getPasswordConfirmation())){
 			errors.rejectValue("passwordConfirmation", "form.customer.password.not.equals");
 		}

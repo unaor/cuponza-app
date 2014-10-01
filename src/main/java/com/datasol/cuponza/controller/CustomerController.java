@@ -1,5 +1,7 @@
 package com.datasol.cuponza.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -9,7 +11,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +26,7 @@ import com.datasol.cuponza.model.Authority;
 import com.datasol.cuponza.model.Customer;
 import com.datasol.cuponza.service.CustomerService;
 import com.datasol.cuponza.util.ControllerUtil;
+import com.datasol.cuponza.util.ErrorMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -52,15 +54,19 @@ public class CustomerController extends CuponzaController {
 		validator.validate(customer, result);
 		model.addAttribute("customer", customer);
 		if(result.hasErrors()){
-			return ControllerUtil.decodeErrorMessages(result.getAllErrors(),locale,messageSource);
-			//TODO: validate if this is a valid json
+			return gson.toJson(ControllerUtil.decodeErrorMessage(result.getAllErrors(),locale,messageSource));
 		}
 		try {
 			customerService.addCustomer(customer);
-			return gson.toJson("ok");
-		} catch (CustomerExistsException e) {
-			FieldError error =new FieldError("customer", "contactEmail", "form.customer.already.exists");			
-			return ControllerUtil.decodeErrorMessage(error, locale, messageSource);
+			return "ok";
+		} catch (CustomerExistsException e) {	
+			ErrorMessage error = new ErrorMessage();
+			error.setErrorHeader("contactEmail");
+			String message  = messageSource.getMessage("form.customer.already.exists",null, locale);
+			error.setErrorDescription(message);
+			List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+			errorMessages.add(error);
+			return gson.toJson(errorMessages);
 		}catch (ServiceException e) {
 			return gson.toJson(messageSource.getMessage("controller.response.failure",null, locale));
 		}

@@ -17,7 +17,8 @@
 <body>
 	<div id="container">
 		<div class="logo-hd"></div>
-		<form id="customerRegistrationForm" class="pure-form pure-form-stacked">
+		<div id="errorContainer"><ul></ul></div>
+		<form id="customerRegistrationForm" class="pure-form pure-form-stacked" action="/cuponza/customer/add" method='POST'>
 		    <fieldset>
 		        <legend>Nueva Empresa</legend>
 
@@ -34,21 +35,7 @@
 
 		            <div class="pure-u-1 pure-u-md-1-3">
 		                <label for="email">e-mail</label>
-		                <input id="email" name="email" type="email">
-		            </div>
-
-		            <div class="pure-u-1 pure-u-md-1-3">
-		                <label for="city">ciudad</label>
-		                <select id="city" name="city" class="pure-input-2-3">
-		                    <option>Medell&iacute;n</option>
-		                    <option>Bogot&aacute;</option>
-		                    <option>Cali</option>
-		                </select>
-		            </div>
-						
-					<div class="pure-u-1 pure-u-md-1-3">
-		                <label for="address">direcci&oacute;n</label>
-		                <input id="address" name="address" type="text">
+		                <input id="email" name="contactEmail" type="email">
 		            </div>
 		            
 		            <div class="pure-u-1 pure-u-md-1-3">
@@ -67,7 +54,7 @@
 		            <input id="terms" type="checkbox"> He leido las condiciones
 		        </label>
 
-		        <button type="submit" class="pure-button pure-button-primary" onclick="verifyForm();">Registrar</button>
+		        <button type="button" class="pure-button pure-button-primary" onclick="verifyForm();">Registrar</button>
 		    </fieldset>
 		</form>
 	</div>
