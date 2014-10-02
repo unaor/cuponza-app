@@ -57,7 +57,10 @@ public class CustomerController extends CuponzaController {
 			return gson.toJson(ControllerUtil.decodeErrorMessage(result.getAllErrors(),locale,messageSource));
 		}
 		try {
+			String password = customer.getPassword();
 			customerService.addCustomer(customer);
+			customer.setPassword(password);
+			customerService.addUserFromClient(customer);
 			return "ok";
 		} catch (CustomerExistsException e) {	
 			ErrorMessage error = new ErrorMessage();

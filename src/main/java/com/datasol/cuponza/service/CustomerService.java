@@ -11,5 +11,6 @@ public interface CustomerService {
 	public void addCustomer(Customer customer) throws ServiceException,CustomerExistsException;	
 	public List<Customer> getAllCustomers() throws ServiceException;
 	public Customer getCustomerByEmail(String email) throws ServiceException;
+	public void addUserFromClient(Customer customer) throws ServiceException;
 
 }

@@ -62,10 +62,12 @@ public class Customer implements Serializable {
 	private Set<Business> businesses;
 	//TODO: change fetch type to lazy
 	@Column(name = "password")
-	@Size(min = 6, max = 20)
+	@Size(min = 6)
 	private String password;
 	@Transient
 	private String passwordConfirmation;
+	@Column(name="enabled")
+	private boolean enabled=false;
 	
 	public Customer(){}
 
@@ -147,5 +149,13 @@ public class Customer implements Serializable {
 
 	public void setPasswordConfirmation(String passwordConfirmation) {
 		this.passwordConfirmation = passwordConfirmation;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }
